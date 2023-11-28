@@ -25,8 +25,14 @@ jobs:
       #   uses: jpetrucciani/bandit-check@main
       #   with:
       #     path: '.'
-      - name: Security check - Bandit
+      - name: Bandit (SAST)
         uses: ioggstream/bandit-report-artifacts@v0.0.2
         with:
           project_path: .
           ignore_failure: true
+
+      - name: Bandit Report
+        uses: actions/upload-artifact@v1
+        with:
+          name: Security report
+          path: security_report.txt
