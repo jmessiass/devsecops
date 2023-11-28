@@ -8,6 +8,9 @@
 RESTful API Server Example
 ==========================
 
+[Security Pipeline](https://github.com/jmessiass/case-devsecops/blob/main/README_SCAN.md)
+-------------------
+
 This project showcases my vision on how the RESTful API server should be
 implemented.
 
