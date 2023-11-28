@@ -35,4 +35,4 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: Security report
-          path: security_report.txt
+          path: output/security_report.txt
