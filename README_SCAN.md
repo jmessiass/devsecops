@@ -14,11 +14,11 @@ Bandit é uma ferramenta de análise estática de segurança para código Python
 - Realizar análise estática do código Python presente no diretório atual.
 - Identificar possíveis problemas de segurança, como vulnerabilidades de execução de comandos, vulnerabilidades de importação de módulos inseguros, entre outros.
 
-### Nuclei (DAST)
-Nuclei é uma ferramenta de análise dinâmica de segurança que permite realizar verificações de segurança em aplicativos da web. Na pipeline, o Nuclei é configurado para:
+### OWASP ZAP (DAST)
+OWASP ZAP é uma ferramenta de análise dinâmica de segurança que permite realizar verificações de segurança em aplicativos da web. Na pipeline, o OWASP ZAP é configurado para:
 
-- Realizar varreduras dinâmicas na aplicação, especificando alvos e templates de segurança.
-- Identificar possíveis vulnerabilidades, como injeção de SQL, cross-site scripting (XSS), entre outros, com base nos templates configurados.
+- Realizar varreduras dinâmicas na aplicação web.
+- Identificar possíveis vulnerabilidades, como injeção de SQL, cross-site scripting (XSS), entre outros.
 
 ## Como Executar
 
@@ -29,9 +29,9 @@ Garanta que a aplicação esteja de pé na porta 5000  `docker run -it --rm --pu
    - Instale o Bandit usando `pip3 install bandit`.
    - Execute `bandit -r . -f json -o sast-results.json` no terminal para analisar o código Python e salvar os resultados em sast-results.json no formato json.
 
-2. **Nuclei (DAST):**
-   - Execute o Nuclei usando `docker run projectdiscovery/nuclei:latest -target localhost:5000 -j > dast-results.json` no terminal para analisar a aplicação rodando na porta 5000 e salvar os resultados em dast-results.json no formato json.
+2. **OWASP ZAP (DAST):**
+   - Baixe e configure o OWASP ZAP para sua aplicação.
+   - Execute os comandos específicos do OWASP ZAP para varrer sua aplicação web.
 
 ## Observações
-- Para testar o scan na pipeline, basta fazer um push na branch main e olhar os logs na action.
-- Localmente ambos os testes estão funcionando, já na pipeline o bandit está quebrando ao término da execução.
+- Para testar o scan na pipeline, basta realizar as alterações no código e fazer push na branch main, aguardar a finalização do job security_scan, após finalizado os resultados são salvos nos artefatos da pipeline.
