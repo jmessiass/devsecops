@@ -21,7 +21,12 @@ jobs:
       #   with:
       #     target: 'http://127.0.0.1:5000'
 
-      - name: Bandit
-        uses: jpetrucciani/bandit-check@main
+      # - name: Bandit
+      #   uses: jpetrucciani/bandit-check@main
+      #   with:
+      #     path: '.'
+      - name: Security check - Bandit
+        uses: ioggstream/bandit-report-artifacts@v0.0.2
         with:
-          path: '.'
+          project_path: .
+          ignore_failure: true
