@@ -26,10 +26,8 @@ jobs:
           pip3 install -r requirements.txt
           pip3 install bandit
 
-      # - name: Run Bandit (SAST)
-      #   run: | 
-      #     bandit -r . -f json -o sast-results.json
-
       - name: Run Nuclei (DAST)
-        run: docker run projectdiscovery/nuclei:latest -target localhost:5000 -j > dast-results.json
-          
+        run: docker run projectdiscovery/nuclei:latest -target localhost:5000
+        
+      - name: Run Bandit (SAST)
+        run: bandit -r .
