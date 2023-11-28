@@ -16,25 +16,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Use Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.9
-
-      - name: Install Dependencies
-        run: |
-          pip3 install -r requirements.txt
-          pip3 install bandit
-
       - name: Set up Docker
         uses: docker/setup-buildx-action@v1
-
-      - name: Run Server
-        run: |
-          docker run -it --rm --publish 5000:5000 frolvlad/flask-restplus-server-example
+  
+      - name: Run Docker container
+        run: docker run -d --publish 5000:5000 frolvlad/flask-restplus-server-example
 
       - name: Run Nuclei (DAST)
         run: docker run projectdiscovery/nuclei:latest -target localhost:5000 -j > dast-results.json
-        
-      # - name: Run Bandit (SAST)
-      #   run: bandit -r .
