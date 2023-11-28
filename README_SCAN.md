@@ -23,6 +23,7 @@ Nuclei é uma ferramenta de análise dinâmica de segurança que permite realiza
 ## Como Executar
 
 Para executar as verificações de segurança localmente:
+Garanta que a aplicação esteja de pé na porta 5000  `docker run -it --rm --publish 5000:5000 frolvlad/flask-restplus-server-example`.
 
 1. **Bandit (SAST):**
    - Instale o Bandit usando `pip3 install bandit`.
@@ -32,4 +33,4 @@ Para executar as verificações de segurança localmente:
    - Execute o Nuclei usando `docker run projectdiscovery/nuclei:latest -target localhost:5000 -j > dast-results.json` no terminal para analisar a aplicação rodando na porta 5000 e salvar os resultados em dast-results.json no formato json.
 
 ## Observações
-- Para testar o scan na pipeline, basta fazer um push na branch main.
+- Para testar o scan na pipeline, basta fazer um push na branch main e olhar os logs na action.
