@@ -1,0 +1,39 @@
+name: Security Scan
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  security_scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Use Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - name: Install Dependencies
+        run: |
+          pip3 install -r requirements.txt
+          pip3 install bandit
+
+      - name: Run Bandit (SAST)
+        run: bandit -r . -f json -o sast-results.json
+
+      - name: Run Nuclei (DAST)
+        run: docker run projectdiscovery/nuclei:latest -target localhost:5000 -j > dast-results.json
+
+      - name: Save Results
+        uses: actions/upload-artifact@v2
+        with:
+          name: scan-results
+          path: |
+            sast-results.json
+            dast-results.json
+          
