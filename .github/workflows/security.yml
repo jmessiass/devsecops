@@ -10,17 +10,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
      
-      # - name: App Threat(SAST)
-      #   uses: AppThreat/sast-scan-action@master
-      #   with:
-      #     type: "python"
-          
-      # - name: Upload App Threat(SAST)  
-      #   uses: actions/upload-artifact@v1
-      #   with:
-      #     name: SAST_Report
-      #     path: reports
-
       - name: Config docker
         uses: docker/setup-buildx-action@v1
 
@@ -32,7 +21,7 @@ jobs:
         with:
           target: 'http://127.0.0.1:5000'
 
-      - name: Run Bandit
-        uses: banditorg/bandit-action@v1
+      - name: Bandit
+        uses: jpetrucciani/bandit-check@main
         with:
-          args: --quiet --format=json --output=./bandit-report.json
+          path: '.'
