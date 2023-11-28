@@ -34,3 +34,4 @@ Garanta que a aplicação esteja de pé na porta 5000  `docker run -it --rm --pu
 
 ## Observações
 - Para testar o scan na pipeline, basta fazer um push na branch main e olhar os logs na action.
+- Localmente ambos os testes estão funcionando, já na pipeline o bandit está quebrando ao término da execução.
