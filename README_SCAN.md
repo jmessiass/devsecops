@@ -34,4 +34,4 @@ Garanta que a aplicação esteja de pé na porta 5000  `docker run -it --rm --pu
    - Execute os comandos específicos do OWASP ZAP para varrer sua aplicação web.
 
 ## Observações
-- Para testar o scan na pipeline, basta realizar as alterações no código e fazer push na branch main, aguardar a finalização do job security_scan, após finalizado os resultados são salvos nos artefatos da pipeline.
+- Para testar o scan na pipeline, basta realizar as alterações no código e fazer push na branch main, aguardar a finalização do job security_scan, após finalizado os resultados são salvos nos artefatos da pipeline. 
