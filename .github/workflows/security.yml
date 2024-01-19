@@ -32,17 +32,16 @@ jobs:
 
   run_sca:
     runs-on: ubuntu-latest
-    name: depecheck_test
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Build project with Maven
         run: mvn clean install
       - name: Depcheck
         uses: dependency-check/Dependency-Check_Action@main
         id: Depcheck
         with:
-          project: 'test'
+          project: 'case-devsecops'
           path: '.'
           format: 'JSON'
           out: 'depcheck'
