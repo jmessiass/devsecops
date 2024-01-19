@@ -8,8 +8,8 @@ jobs:
 
     steps:
       # CONFIG
-      - name: Checkout code
-        uses: actions/checkout@v2
+      # - name: Checkout code
+      #   uses: actions/checkout@v2
      
       - name: Config docker
         uses: docker/setup-buildx-action@v1
