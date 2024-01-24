@@ -1,5 +1,8 @@
 # Implementação de Segurança na Pipeline
-Esta documentação reune informações sobre as ferramentas de segurança que estão sendo usadas na pipeline de integração contínua via GitHub Actions para verificar a segurança do código-fonte e da aplicação. É realizado os seguintes tipos de testes de forma automatizada (SAST, SCA e DAST). O projeto utilizado para os testes é uma API construida em Python utilizando o framework Flask.
+Esta documentação reune informações sobre as ferramentas de segurança que estão sendo usadas na pipeline de integração contínua via GitHub Actions para verificar a segurança do código-fonte e da aplicação. É realizado os seguintes tipos de testes de forma automatizada (SAST, SCA e DAST) e em breve (Secrets Scan e IaC Scan). O projeto utilizado para os testes é uma API construida em Python utilizando o framework Flask.
+
+## Diagrama de arquitetura
+![DevSecOps](/devsecops.png "DevSecOps")
 
 ## Finalidade
 O objetivo deste fluxo é garantir a detecção proativa de possíveis vulnerabilidades no código e na aplicação durante o processo de integração contínua. As ferramentas são integradas na pipeline para identificar problemas de segurança em um estágio inicial do desenvolvimento, reduzindo assim o risco de implantações com falhas de segurança.
@@ -25,3 +28,6 @@ Para acessar os resultados de segurança basta acessar as actions do projeto, cl
 - https://semgrep.dev/
 - https://owasp.org/www-project-dependency-check/
 - https://www.zaproxy.org/
+- https://gitleaks.io/
+- https://trivy.dev/
+- https://www.defectdojo.org/
