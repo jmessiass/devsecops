@@ -26,7 +26,7 @@ OWASP ZAP é uma ferramenta de análise dinâmica de segurança que permite real
 Gileaks é um scanner de segredos rápido, leve, portátil e de código aberto para repositórios, arquivos e diretórios git. 
 
 ## Relatórios com os resultados
-Para acessar os resultados de segurança basta acessar as actions do projeto, clicar em algum job que tenha executado com sucesso, rolar a página para baixo e verá os artefatos com os resultados de todos os testes executados, no caso do gitleaks é exibido diretamente nos logs do job executado.
+Para acessar os resultados de segurança basta acessar as actions do projeto, clicar em algum job que tenha executado com sucesso, rolar a página para baixo e verá os artefatos com os resultados de todos os testes executados.
 
 ### Referências
 - https://github.com/OWASP/DevSecOpsGuideline
