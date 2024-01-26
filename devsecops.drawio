@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2024-01-26T19:09:44.950Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36" etag="BmpZyubjmREy9pbOXpKg" version="23.0.0" type="github">
+<mxfile host="app.diagrams.net" modified="2024-01-26T19:14:33.844Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36" etag="y9fcSwZ4RgZYYMSOuxnM" version="23.0.0" type="github">
   <diagram name="Página-1" id="RYFyYzwZ5WKq69sqdR-A">
     <mxGraphModel dx="1242" dy="820" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -71,6 +71,9 @@
         </mxCell>
         <mxCell id="hn5n980xTfpvtiMm4V87-21" value="" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=https://strikeone.s3.us-east-2.amazonaws.com/website/Dependency_Check_7deb0a9d34.png;" parent="1" vertex="1">
           <mxGeometry x="605" y="471.34" width="90" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="rTMEwJcdcnjUBclY5fVk-1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="hn5n980xTfpvtiMm4V87-23" target="hn5n980xTfpvtiMm4V87-21">
+          <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="hn5n980xTfpvtiMm4V87-23" value="" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=https://forwardsecurity.com/wp-content/uploads/2023/03/semgrep-1.png;clipPath=inset(19.14% 0% 19.71% 0%);" parent="1" vertex="1">
           <mxGeometry x="450.75" y="478.86" width="118.5" height="72.45428571428572" as="geometry" />
