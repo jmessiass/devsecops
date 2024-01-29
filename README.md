@@ -1,7 +1,7 @@
 # Implementação de Segurança na Pipeline
 <img alt="gitleaks badge" src="https://img.shields.io/badge/protected%20by-gitleaks-blue">
 
-Esta documentação reune informações sobre as ferramentas de segurança que estão sendo usadas na pipeline de integração contínua via GitHub Actions para verificar a segurança do código-fonte e da aplicação. É realizado os seguintes tipos de testes de forma automatizada: SAST, SCA, DAST e Secrets Scan e IaC Scan. O projeto utilizado para os testes é uma API construida em Python utilizando o framework Flask.
+Esta documentação reune informações sobre as ferramentas de segurança que estão sendo usadas na pipeline de integração contínua via GitHub Actions para verificar a segurança do código-fonte e da aplicação. É realizado os seguintes tipos de testes de forma automatizada: SAST, SCA, DAST, Secrets Scan e IaC Scan. O projeto utilizado para os testes é uma API construida em Python utilizando o framework Flask.
 
 ## Diagrama de arquitetura
 ![DevSecOps](/devsecops.png "DevSecOps")
