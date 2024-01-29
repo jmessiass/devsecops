@@ -30,29 +30,29 @@ jobs:
         with: 
           name: semgrep.sarif
 
-  # run_sca:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
-  #     - name: Build project with Maven
-  #       run: mvn clean install
-  #     - name: Depcheck
-  #       uses: dependency-check/Dependency-Check_Action@main
-  #       id: Depcheck
-  #       with:
-  #         project: 'case-devsecops'
-  #         path: '.'
-  #         format: 'JSON'
-  #         out: 'depcheck'
-  #         args: >
-  #           --failOnCVSS 7
-  #           --enableRetired
-  #     - name: Upload Test results
-  #       uses: actions/upload-artifact@master
-  #       with:
-  #           name: Depcheck report
-  #           path: ${{github.workspace}}/depcheck
+  run_sca:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Build project with Maven
+        run: mvn clean install
+      - name: Depcheck
+        uses: dependency-check/Dependency-Check_Action@main
+        id: Depcheck
+        with:
+          project: 'case-devsecops'
+          path: '.'
+          format: 'JSON'
+          out: 'depcheck'
+          args: >
+            --failOnCVSS 7
+            --enableRetired
+      - name: Upload Test results
+        uses: actions/upload-artifact@master
+        with:
+            name: Depcheck report
+            path: ${{github.workspace}}/depcheck
 
   run_dast:
     runs-on: ubuntu-latest
