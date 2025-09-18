@@ -151,8 +151,7 @@ jobs:
       - name: Run Trivy IaC scan
         uses: aquasecurity/trivy-action@master
         with:
-          scan-type: 'cgst
-          onfig'
+          scan-type: 'config'
           scan-ref: '.'
           format: 'sarif'
           output: 'trivy-iac.sarif'
