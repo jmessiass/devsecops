@@ -7,24 +7,16 @@ on:
     branches: [main]
 
 env:
-  # Configurações globais
-  FAIL_ON_SEVERITY: "CRITICAL,HIGH"
   SARIF_RESULTS_DIR: "security-results"
 
 jobs:
-  # Job de preparação - cria diretório para resultados
-  setup:
+  # SAST - Complementa o Code Scanning nativo
+  sast-semgrep:
     runs-on: ubuntu-latest
-    outputs:
-      sarif-dir: ${{ env.SARIF_RESULTS_DIR }}
-    steps:
-      - name: Create results directory
-        run: mkdir -p ${{ env.SARIF_RESULTS_DIR }}
-
-  # SAST - Static Application Security Testing
-  sast:
-    runs-on: ubuntu-latest
-    needs: setup
+    permissions:
+      security-events: write
+      contents: read
+      actions: read
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -38,79 +30,19 @@ jobs:
             p/security-audit
             p/secrets
             p/owasp-top-ten
-          generateSarif: "1"
-          
-      - name: Upload SAST results
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: sast-results
-          path: semgrep.sarif
-          retention-days: 30
 
-      - name: Upload to GitHub Security tab
+      - name: Upload SARIF to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v3
         if: always()
         with:
           sarif_file: semgrep.sarif
-          category: sast
 
-  # SCA - Software Composition Analysis (Multi-language)
-  sca:
+  # Secrets Scanning - Complementa o Secret Scanning nativo
+  secrets-scan:
     runs-on: ubuntu-latest
-    needs: setup
-    strategy:
-      matrix:
-        scanner: [trivy, dependency-check]
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      # Scanner Trivy - Melhor para Python, Node.js, Go, etc.
-      - name: Run Trivy SCA scan
-        if: matrix.scanner == 'trivy'
-        uses: aquasecurity/trivy-action@master
-        with:
-          scan-type: 'fs'
-          scan-ref: '.'
-          format: 'sarif'
-          output: 'trivy-sca.sarif'
-          severity: 'CRITICAL,HIGH,MEDIUM'
-          ignore-unfixed: false
-
-      # Scanner Dependency Check - Melhor para Java, .NET
-      - name: Run Dependency Check
-        if: matrix.scanner == 'dependency-check'
-        uses: dependency-check/Dependency-Check_Action@main
-        with:
-          project: 'devsecops-project'
-          path: '.'
-          format: 'SARIF'
-          out: 'dependency-check.sarif'
-          args: >
-            --failOnCVSS 7
-            --enableRetired
-            --enableExperimental
-
-      - name: Upload SCA results
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: sca-results-${{ matrix.scanner }}
-          path: "*.sarif"
-          retention-days: 30
-
-      - name: Upload to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v3
-        if: always()
-        with:
-          sarif_file: "*.sarif"
-          category: sca-${{ matrix.scanner }}
-
-  # Secrets Scanning
-  secrets:
-    runs-on: ubuntu-latest
-    needs: setup
+    permissions:
+      security-events: write
+      contents: read
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -123,18 +55,39 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITLEAKS_ENABLE_COMMENTS: false
 
-      - name: Run TruffleHog
-        uses: trufflesecurity/trufflehog@main
-        with:
-          path: ./
-          base: main
-          head: HEAD
-          extra_args: --debug --only-verified
-
-  # IaC - Infrastructure as Code Security
-  iac:
+  # Container Security - Scan da imagem Docker
+  container-scan:
     runs-on: ubuntu-latest
-    needs: setup
+    permissions:
+      security-events: write
+      contents: read
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t devsecops-app:latest .
+
+      - name: Run Trivy container scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'devsecops-app:latest'
+          format: 'sarif'
+          output: 'trivy-container.sarif'
+
+      - name: Upload Trivy results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: trivy-container.sarif
+          category: container-security
+
+  # IaC Scanning - Para Dockerfile e configs
+  iac-scan:
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      contents: read
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -146,137 +99,10 @@ jobs:
           scan-ref: '.'
           format: 'sarif'
           output: 'trivy-iac.sarif'
-          severity: 'CRITICAL,HIGH'
 
-      - name: Run Checkov
-        uses: bridgecrewio/checkov-action@master
-        with:
-          directory: .
-          framework: dockerfile,kubernetes,terraform
-          output_format: sarif
-          output_file_path: checkov.sarif
-
-      - name: Upload IaC results
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: iac-results
-          path: "*.sarif"
-          retention-days: 30
-
-      - name: Upload to GitHub Security tab
+      - name: Upload IaC results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v3
         if: always()
         with:
-          sarif_file: "*.sarif"
+          sarif_file: trivy-iac.sarif
           category: iac
-
-  # DAST - Dynamic Application Security Testing
-  dast:
-    runs-on: ubuntu-latest
-    needs: setup
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Build and start application
-        run: |
-          docker build -t app-under-test .
-          docker run -d --name test-app -p 5000:5000 app-under-test
-          sleep 30  # Wait for app to start
-
-      - name: Run OWASP ZAP Full Scan
-        uses: zaproxy/action-full-scan@v0.10.0
-        with:
-          target: 'http://localhost:5000'
-          rules_file_name: '.zap/rules.tsv'
-          cmd_options: '-a -j -m 5 -T 60'
-          
-      - name: Upload DAST results
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: dast-results
-          path: report_html.html
-          retention-days: 30
-
-  # Consolidação de resultados para IA
-  consolidate-results:
-    runs-on: ubuntu-latest
-    needs: [sast, sca, secrets, iac]
-    if: always()
-    steps:
-      - name: Download all artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: all-results/
-
-      - name: Consolidate SARIF files
-        run: |
-          mkdir -p consolidated-sarif
-          find all-results/ -name "*.sarif" -exec cp {} consolidated-sarif/ \;
-          ls -la consolidated-sarif/
-
-      - name: Upload consolidated results
-        uses: actions/upload-artifact@v4
-        with:
-          name: consolidated-security-results
-          path: consolidated-sarif/
-          retention-days: 30
-
-      - name: Create summary comment (prepare for AI integration)
-        if: github.event_name == 'pull_request'
-        run: |
-          echo "# 🔒 Security Scan Results" > security-summary.md
-          echo "" >> security-summary.md
-          echo "| Scanner | Status | Files Scanned |" >> security-summary.md
-          echo "|---------|---------|---------------|" >> security-summary.md
-          
-          # Count SARIF files to show scan status
-          SAST_FILES=$(find consolidated-sarif/ -name "*semgrep*" | wc -l)
-          SCA_FILES=$(find consolidated-sarif/ -name "*trivy*" -o -name "*dependency*" | wc -l)
-          IAC_FILES=$(find consolidated-sarif/ -name "*iac*" -o -name "*checkov*" | wc -l)
-          
-          echo "| SAST (Semgrep) | ✅ | $SAST_FILES |" >> security-summary.md
-          echo "| SCA (Trivy/DepCheck) | ✅ | $SCA_FILES |" >> security-summary.md  
-          echo "| IaC (Trivy/Checkov) | ✅ | $IAC_FILES |" >> security-summary.md
-          echo "| Secrets (Gitleaks) | ✅ | N/A |" >> security-summary.md
-          echo "" >> security-summary.md
-          echo "**Next Step**: AI agent will analyze findings and suggest fixes 🤖" >> security-summary.md
-
-      - name: Upload summary
-        uses: actions/upload-artifact@v4
-        if: github.event_name == 'pull_request'
-        with:
-          name: security-summary
-          path: security-summary.md
-          retention-days: 7
-
-  # Preparação para trigger de IA (placeholder)
-  trigger-ai-analysis:
-    runs-on: ubuntu-latest
-    needs: consolidate-results
-    if: always() && github.event_name == 'pull_request'
-    steps:
-      - name: Trigger AI analysis workflow
-        run: |
-          echo "🤖 Triggering AI analysis for PR ${{ github.event.number }}"
-          echo "This step will trigger the AI agent workflow in the future"
-          echo "AI will analyze consolidated SARIF files and create fix suggestions"
-          
-      # Placeholder para repository dispatch que vai trigger a IA
-      - name: Repository Dispatch to AI Workflow
-        uses: peter-evans/repository-dispatch@v3
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          event-type: security-scan-completed
-          client-payload: |
-            {
-              "pr_number": "${{ github.event.number }}",
-              "sha": "${{ github.sha }}",
-              "artifacts": ["consolidated-security-results", "security-summary"]
-            }
