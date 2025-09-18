@@ -30,6 +30,11 @@ jobs:
             p/security-audit
             p/secrets
             p/owasp-top-ten
+            p/python
+            p/flask
+            p/django
+            p/sql-injection
+            p/command-injection
         continue-on-error: true
 
       - name: Check if Semgrep SARIF file exists
@@ -146,7 +151,8 @@ jobs:
       - name: Run Trivy IaC scan
         uses: aquasecurity/trivy-action@master
         with:
-          scan-type: 'config'
+          scan-type: 'cgst
+          onfig'
           scan-ref: '.'
           format: 'sarif'
           output: 'trivy-iac.sarif'
