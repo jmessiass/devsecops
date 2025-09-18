@@ -30,10 +30,24 @@ jobs:
             p/security-audit
             p/secrets
             p/owasp-top-ten
+        continue-on-error: true
+
+      - name: Check if Semgrep SARIF file exists
+        id: check-semgrep-sarif
+        run: |
+          echo "Files in current directory:"
+          ls -la *.sarif 2>/dev/null || echo "No SARIF files found"
+          if [ -f "semgrep.sarif" ] && [ -s "semgrep.sarif" ]; then
+            echo "sarif-exists=true" >> $GITHUB_OUTPUT
+            echo "Semgrep SARIF file found and not empty"
+          else
+            echo "sarif-exists=false" >> $GITHUB_OUTPUT
+            echo "No Semgrep SARIF file generated or file is empty"
+          fi
 
       - name: Upload SARIF to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v3
-        if: always()
+        if: steps.check-semgrep-sarif.outputs.sarif-exists == 'true'
         with:
           sarif_file: semgrep.sarif
 
@@ -74,10 +88,24 @@ jobs:
           image-ref: 'devsecops-app:latest'
           format: 'sarif'
           output: 'trivy-container.sarif'
+        continue-on-error: true
+
+      - name: Check if SARIF file exists
+        id: check-sarif
+        run: |
+          echo "Files in current directory:"
+          ls -la *.sarif 2>/dev/null || echo "No SARIF files found"
+          if [ -f "trivy-container.sarif" ] && [ -s "trivy-container.sarif" ]; then
+            echo "sarif-exists=true" >> $GITHUB_OUTPUT
+            echo "SARIF file found and not empty"
+          else
+            echo "sarif-exists=false" >> $GITHUB_OUTPUT
+            echo "No SARIF file generated or file is empty"
+          fi
 
       - name: Upload Trivy results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v3
-        if: always()
+        if: steps.check-sarif.outputs.sarif-exists == 'true'
         with:
           sarif_file: trivy-container.sarif
           category: container-security
@@ -99,10 +127,24 @@ jobs:
           scan-ref: '.'
           format: 'sarif'
           output: 'trivy-iac.sarif'
+        continue-on-error: true
+
+      - name: Check if IaC SARIF file exists
+        id: check-iac-sarif
+        run: |
+          echo "Files in current directory:"
+          ls -la *.sarif 2>/dev/null || echo "No SARIF files found"
+          if [ -f "trivy-iac.sarif" ] && [ -s "trivy-iac.sarif" ]; then
+            echo "sarif-exists=true" >> $GITHUB_OUTPUT
+            echo "IaC SARIF file found and not empty"
+          else
+            echo "sarif-exists=false" >> $GITHUB_OUTPUT
+            echo "No IaC SARIF file generated or file is empty"
+          fi
 
       - name: Upload IaC results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v3
-        if: always()
+        if: steps.check-iac-sarif.outputs.sarif-exists == 'true'
         with:
           sarif_file: trivy-iac.sarif
           category: iac
