@@ -60,7 +60,7 @@ Este projeto demonstra uma implementação **robusta e completa** de **DevSecOps
 ├── 🐍 p/python            # Específico para Python
 ├── 🌐 p/flask             # Framework Flask
 ├── 💾 p/sql-injection     # Prevenção SQL Injection
-└── ⚡ p/command-injection # Prevenção Command Injection
+└── ⚡ p/command-injection  # Prevenção Command Injection
 ```
 
 #### CodeQL - Análise Semântica Profunda
@@ -226,7 +226,7 @@ Contribuições são bem-vindas! Por favor:
 
 ## 📜 **Licença**
 
-Este projeto está licenciado sob a [MIT License](LICENSE).
+Este projeto está licenciado sob a [MIT License](LICENSE). 
 
 ---
 
