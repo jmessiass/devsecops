@@ -178,9 +178,7 @@ Todos os resultados são centralizados em:
 ## 📚 **Documentação**
 
 ### 📖 **Configurações de Segurança**
-- [🔧 SECURITY_STATUS.md](SECURITY_STATUS.md) - Status atual das ferramentas
 - [⚙️ .github/workflows/security.yml](/.github/workflows/security.yml) - Pipeline de segurança
-- [📊 .github/SAST_vs_DAST.md](/.github/SAST_vs_DAST.md) - Diferenças técnicas
 - [🛡️ .github/dependabot.yml](/.github/dependabot.yml) - Configuração Dependabot
 
 ### 🎓 **Recursos de Aprendizado**
