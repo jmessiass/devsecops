@@ -226,7 +226,7 @@ Contribuições são bem-vindas! Por favor:
 
 ## 📜 **Licença**
 
-Este projeto está licenciado sob a [MIT License](LICENSE).
+Este projeto está licenciado sob a [MIT License](LICENSE). 
 
 ---
 
