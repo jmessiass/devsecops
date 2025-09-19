@@ -60,7 +60,7 @@ Este projeto demonstra uma implementação **robusta e completa** de **DevSecOps
 ├── 🐍 p/python            # Específico para Python
 ├── 🌐 p/flask             # Framework Flask
 ├── 💾 p/sql-injection     # Prevenção SQL Injection
-└── ⚡ p/command-injection # Prevenção Command Injection
+└── ⚡ p/command-injection  # Prevenção Command Injection
 ```
 
 #### CodeQL - Análise Semântica Profunda
