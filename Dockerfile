@@ -1,4 +1,4 @@
-FROM python:3.11-alpine
+FROM python:3.13-alpine
 
 ENV API_SERVER_HOME=/opt/www
 WORKDIR "$API_SERVER_HOME"
