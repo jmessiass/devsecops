@@ -2,8 +2,6 @@
 
 <div align="center">
 
-![DevSecOps Banner](/devsecops.png)
-
 <img alt="Gitleaks Badge" src="https://img.shields.io/badge/protected%20by-gitleaks-blue">
 <img alt="Security Scan" src="https://img.shields.io/badge/security-automated-green">
 <img alt="Python" src="https://img.shields.io/badge/python-3.11+-blue">
