@@ -1,6 +1,8 @@
-# 🛡️ Esteira de segurança automatizada - DevSecOps
+# 🛡️ Esteira de Segurança Automatizada - DevSecOps
 
 <div align="center">
+
+![DevSecOps Banner](/devsecops.png)
 
 <img alt="Gitleaks Badge" src="https://img.shields.io/badge/protected%20by-gitleaks-blue">
 <img alt="Security Scan" src="https://img.shields.io/badge/security-automated-green">
@@ -10,7 +12,7 @@
 
 **Uma implementação completa de DevSecOps com análise automatizada de segurança**
 
-[📖 Documentação](#-documentação) • [🚀 Quick Start](#-quick-start) • [🔒 Segurança](#-ferramentas-de-segurança) • [📊 Relatórios](#-relatórios-e-monitoramento)
+[📖 Documentação](#-documentação) • [🔒 Segurança](#-ferramentas-de-segurança) • [📊 Pipeline](#-pipeline-de-segurança) • [📈 Relatórios](#-relatórios-e-monitoramento)
 
 </div>
 
@@ -28,6 +30,22 @@ Este projeto demonstra uma implementação **robusta e completa** de **DevSecOps
 - 📦 **Dependências monitoradas** via Dependabot
 - 🔐 **Zero secrets** no código-fonte
 - ⚡ **Feedback imediato** em Pull Requests
+
+---
+
+## 🎯 **Estratégia DevSecOps**
+
+### 🔄 **Shift-Left Security**
+- **Análise contínua** desde o primeiro commit
+- **Feedback imediato** em Pull Requests
+- **Bloqueio automático** para vulnerabilidades críticas
+- **Integração nativa** com ferramentas de desenvolvimento
+
+### 🛡️ **Defense in Depth**
+- **Múltiplas camadas** de análise de segurança
+- **Diferentes perspectivas** (código, dependências, containers, IaC)
+- **Redundância inteligente** (Semgrep + CodeQL para SAST)
+- **Cobertura completa** do ciclo de desenvolvimento
 
 ---
 
@@ -93,68 +111,24 @@ Este projeto demonstra uma implementação **robusta e completa** de **DevSecOps
 
 ---
 
-## 🚀 **Quick Start**
-
-### 📋 **Pré-requisitos**
-- Python 3.11+
-- Docker
-- Git
-
-### ⚡ **Instalação Rápida**
-
-```bash
-# Clone o repositório
-git clone https://github.com/jmessiass/devsecops.git
-cd devsecops
-
-# Configure o ambiente Python
-python -m venv venv
-source venv/bin/activate  # Linux/Mac
-# ou venv\Scripts\activate  # Windows
-
-# Instale as dependências
-pip install -r requirements.txt
-pip install -r app/requirements.txt
-
-# Configure variáveis locais
-cp local_config.py.template local_config.py
-
-# Execute a aplicação
-python -m flask run
-```
-
-### 🐳 **Com Docker**
-
-```bash
-# Build da imagem
-docker build -t devsecops-app .
-
-# Execute o container
-docker run -p 5000:5000 devsecops-app
-
-# Acesse: http://localhost:5000
-```
-
----
-
 ## 🔒 **Pipeline de Segurança**
 
 ### 📊 **Fluxo Automatizado**
 
 ```mermaid
 graph TD
-    A[💻 Code Push/PR] --> B[🔍 SAST - Semgrep]
-    A --> C[🔐 Secrets - Gitleaks]
-    A --> D[🐳 Container - Trivy]
-    A --> E[🏗️ IaC - Trivy Config]
+    A[💻 Push/PR] --> B[🔍 SAST]
+    A --> C[🔐 Secrets]
+    A --> D[🐳 Container]
+    A --> E[🏗️ IaC]
     
-    B --> F[📊 GitHub Security]
+    B --> F[GitHub Security]
     C --> F
     D --> F
     E --> F
     
-    F --> G[✅ Security Report]
-    F --> H[🚨 Block if Critical]
+    F --> G[✅ Report]
+    F --> H[🚨 Block Critical]
 ```
 
 ### ⚙️ **Configuração dos Workflows**
@@ -205,16 +179,17 @@ Todos os resultados são centralizados em:
 
 ## 📚 **Documentação**
 
-### 📖 **Guias Detalhados**
-- [⚙️ .github/workflows/](/.github/workflows/) - Configurações dos workflows
-- [🐳 Dockerfile](Dockerfile) - Container configuration
-- [📦 requirements.txt](requirements.txt) - Dependências Python
+### 📖 **Configurações de Segurança**
+- [🔧 SECURITY_STATUS.md](SECURITY_STATUS.md) - Status atual das ferramentas
+- [⚙️ .github/workflows/security.yml](/.github/workflows/security.yml) - Pipeline de segurança
+- [📊 .github/SAST_vs_DAST.md](/.github/SAST_vs_DAST.md) - Diferenças técnicas
+- [🛡️ .github/dependabot.yml](/.github/dependabot.yml) - Configuração Dependabot
 
 ### 🎓 **Recursos de Aprendizado**
-- [OWASP DevSecOps Guidelines](https://github.com/OWASP/DevSecOpsGuideline)
-- [Semgrep Rules Documentation](https://semgrep.dev/docs/)
-- [Trivy Security Scanner](https://trivy.dev/)
-- [GitHub Security Features](https://docs.github.com/en/code-security)
+- [📚 OWASP DevSecOps Guidelines](https://github.com/OWASP/DevSecOpsGuideline)
+- [🔍 Semgrep Rules Documentation](https://semgrep.dev/docs/)
+- [🛡️ Trivy Security Scanner](https://trivy.dev/)
+- [🔒 GitHub Security Features](https://docs.github.com/en/code-security)
 
 ---
 
