@@ -51,7 +51,7 @@ jobs:
           fi
 
       - name: Upload SARIF to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v4
         if: steps.check-semgrep-sarif.outputs.sarif-exists == 'true'
         with:
           sarif_file: semgrep.sarif
@@ -132,7 +132,7 @@ jobs:
           fi
 
       - name: Upload Trivy results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v4
         if: steps.check-sarif.outputs.sarif-exists == 'true'
         with:
           sarif_file: trivy-container.sarif
@@ -171,7 +171,7 @@ jobs:
           fi
 
       - name: Upload IaC results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@v4
         if: steps.check-iac-sarif.outputs.sarif-exists == 'true'
         with:
           sarif_file: trivy-iac.sarif
